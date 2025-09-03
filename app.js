@@ -530,9 +530,18 @@ const WitnessApp = {
         let isValid = true;
         let firstInvalidField = null;
 
+        // Clear any existing validation errors first
+        this.clearAllValidationErrors();
+
         // Validate required fields
         requiredFields.forEach(field => {
-            if (!this.validateField(field)) {
+            if (!field.value.trim()) {
+                isValid = false;
+                if (!firstInvalidField) {
+                    firstInvalidField = field;
+                }
+                this.showFieldError(field, 'Please fill this out.');
+            } else if (!this.validateField(field)) {
                 isValid = false;
                 if (!firstInvalidField) {
                     firstInvalidField = field;
@@ -549,6 +558,9 @@ const WitnessApp = {
             if (fieldset && !firstInvalidField) {
                 firstInvalidField = relationshipRadios[0];
             }
+            
+            // Show error for radio group
+            this.showRadioGroupError('relationship', 'Please select your relationship to this incident.');
             this.announceToScreenReader('Please select your relationship to this incident');
         }
 
@@ -559,6 +571,7 @@ const WitnessApp = {
             if (!firstInvalidField) {
                 firstInvalidField = privacyConsent;
             }
+            this.showFieldError(privacyConsent, 'You must agree to the privacy policy to submit a report.');
             this.announceToScreenReader('Privacy policy consent is required');
         }
 
@@ -569,6 +582,47 @@ const WitnessApp = {
         }
 
         return isValid;
+    },
+
+    // Clear all validation errors
+    clearAllValidationErrors() {
+        const form = document.getElementById('incident-form');
+        const errorMessages = form.querySelectorAll('.error-message-field');
+        errorMessages.forEach(error => {
+            error.textContent = '';
+            error.style.display = 'none';
+        });
+
+        const invalidFields = form.querySelectorAll('[aria-invalid="true"]');
+        invalidFields.forEach(field => {
+            field.removeAttribute('aria-invalid');
+            field.classList.remove('error');
+        });
+
+        // Clear radio group errors
+        const radioGroupErrors = form.querySelectorAll('.radio-group-error');
+        radioGroupErrors.forEach(error => error.remove());
+    },
+
+    // Show error for radio button groups
+    showRadioGroupError(groupName, message) {
+        const radioGroup = document.querySelector(`input[name="${groupName}"]`).closest('.radio-group');
+        if (radioGroup) {
+            // Remove existing error
+            const existingError = radioGroup.querySelector('.radio-group-error');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Add new error message
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'radio-group-error error-message-field';
+            errorDiv.textContent = message;
+            errorDiv.style.cssText = 'color: var(--color-error); font-size: var(--font-size-sm); margin-top: var(--space-2);';
+            errorDiv.setAttribute('role', 'alert');
+            
+            radioGroup.appendChild(errorDiv);
+        }
     },
 
     // Collect form data

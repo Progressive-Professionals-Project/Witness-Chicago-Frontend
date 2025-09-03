@@ -315,8 +315,16 @@ input[type="email"]:invalid,
 input[type="tel"]:invalid,
 input[type="date"]:invalid,
 input[type="time"]:invalid,
-textarea:invalid {
+textarea:invalid,
+input.error,
+textarea.error {
     border-color: var(--color-error);
+    background-color: rgba(229, 62, 62, 0.05);
+}
+
+input.error:focus,
+textarea.error:focus {
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
 }
 
 textarea {
