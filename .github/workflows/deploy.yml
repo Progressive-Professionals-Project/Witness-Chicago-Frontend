@@ -35,6 +35,15 @@ jobs:
               exit 1
             fi
           done
+          
+          # Verify assets directory
+          if [ -d "assets" ]; then
+            echo "✅ assets directory exists"
+            ls -la assets/
+          else
+            echo "❌ assets directory missing"
+            exit 1
+          fi
         
       - name: Create deployment directory
         run: mkdir -p dist
@@ -52,10 +61,19 @@ jobs:
           cp .htaccess dist/
           echo "✅ Production files copied"
           
+          # Copy assets directory
+          if [ -d "assets" ]; then
+            cp -r assets dist/
+            echo "✅ Assets directory copied"
+          fi
+          
       - name: Verify deployment contents
         run: |
           echo "🔍 Deployment contents:"
           ls -la dist/
+          echo ""
+          echo "🖼️ Assets directory:"
+          ls -la dist/assets/ 2>/dev/null || echo "No assets directory found"
           echo ""
           echo "📊 File sizes:"
           du -sh dist/*
@@ -86,4 +104,5 @@ jobs:
           echo "🎉 Deployment successful!"
           echo "🌐 Site URL: ${{ steps.deployment.outputs.page_url }}"
           echo "📁 Deployed files: $(ls dist/ | wc -l)"
+          echo "🖼️ Assets included: $(ls dist/assets/ | wc -l) files"
           echo "🔒 Documentation files excluded from production"

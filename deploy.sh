@@ -29,9 +29,20 @@ for file in "${FILES[@]}"; do
     fi
 done
 
+# Copy assets directory if it exists
+if [ -d "assets" ]; then
+    cp -r assets dist/
+    echo "✅ Copied assets directory"
+else
+    echo "⚠️  Warning: assets directory not found"
+fi
+
 echo ""
 echo "🎉 Deployment ready in ./dist/"
 echo "📁 Upload the contents of ./dist/ to your web server"
 echo ""
 echo "Files ready for deployment:"
 ls -la dist/
+echo ""
+echo "Assets directory contents:"
+ls -la dist/assets/ 2>/dev/null || echo "No assets directory found"
