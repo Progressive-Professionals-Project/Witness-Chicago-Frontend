@@ -665,9 +665,40 @@ footer {
     }
 }
 
-/* Notification styles */
-.form-restored-notification,
-.failed-submission-notification {
+/* Success Actions */
+.success-actions {
+    margin-top: var(--space-6);
+    text-align: center;
+}
+
+.new-report-btn {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    border: none;
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.new-report-btn:hover {
+    background: var(--color-primary-light);
+    transform: translateY(-1px);
+}
+
+.new-report-btn:active {
+    transform: translateY(0);
+}
+
+.new-report-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.3);
+}
+
+/* Form Restored Notification */
+.form-restored-notification {
     font-family: var(--font-family-base);
 }
 
@@ -689,15 +720,6 @@ footer {
     font-size: var(--font-size-sm);
     cursor: pointer;
     transition: background-color var(--transition-fast);
-}
-
-.retry-btn {
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--color-text);
-}
-
-.retry-btn:hover {
-    background: rgba(255, 255, 255, 1);
 }
 
 .clear-btn {
@@ -730,7 +752,7 @@ footer {
     .skip-link,
     .submit-btn,
     .form-restored-notification,
-    .failed-submission-notification,
+    .new-report-btn,
     footer {
         display: none;
     }

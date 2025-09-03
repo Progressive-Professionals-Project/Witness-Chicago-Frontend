@@ -51,9 +51,6 @@ const WitnessApp = {
         form.addEventListener('change', () => {
             this.saveFormData();
         });
-        
-        // Check for failed submissions on page load
-        this.checkForFailedSubmissions();
     },
 
     // Save current form data to localStorage
@@ -174,7 +171,6 @@ const WitnessApp = {
     // Clear saved form data
     clearSavedFormData() {
         localStorage.removeItem('witness-chicago-form-data');
-        localStorage.removeItem('witness-chicago-failed-submissions');
         
         // Remove notification
         const notification = document.querySelector('.form-restored-notification');
@@ -185,112 +181,7 @@ const WitnessApp = {
         this.announceToScreenReader('Saved form data cleared');
     },
 
-    // Check for failed submissions and offer to retry
-    checkForFailedSubmissions() {
-        try {
-            const failedSubmissions = localStorage.getItem('witness-chicago-failed-submissions');
-            if (!failedSubmissions) return;
 
-            const submissions = JSON.parse(failedSubmissions);
-            if (submissions.length === 0) return;
-
-            this.showFailedSubmissionNotification(submissions);
-        } catch (error) {
-            console.error('Error checking failed submissions:', error);
-            localStorage.removeItem('witness-chicago-failed-submissions');
-        }
-    },
-
-    // Show notification about failed submissions
-    showFailedSubmissionNotification(submissions) {
-        const notification = document.createElement('div');
-        notification.className = 'failed-submission-notification';
-        notification.innerHTML = `
-            <div class="notification-content">
-                <p><strong>${submissions.length} failed submission${submissions.length > 1 ? 's' : ''}</strong> waiting to be retried</p>
-                <button onclick="WitnessApp.retryFailedSubmissions()" class="retry-btn">Retry Now</button>
-                <button onclick="WitnessApp.clearFailedSubmissions()" class="clear-btn">Clear</button>
-                <button onclick="this.parentElement.parentElement.remove()" class="dismiss-btn">×</button>
-            </div>
-        `;
-        notification.style.cssText = `
-            position: fixed; top: 20px; left: 20px; z-index: 1000;
-            background: var(--color-warning); color: white;
-            padding: var(--space-4); border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg); max-width: 300px;
-        `;
-        document.body.appendChild(notification);
-
-        this.announceToScreenReader(`${submissions.length} failed submissions are waiting to be retried`);
-    },
-
-    // Retry failed submissions
-    async retryFailedSubmissions() {
-        try {
-            const failedSubmissions = localStorage.getItem('witness-chicago-failed-submissions');
-            if (!failedSubmissions) return;
-
-            const submissions = JSON.parse(failedSubmissions);
-            const successfulSubmissions = [];
-
-            for (const submission of submissions) {
-                try {
-                    const response = await fetch(submission.endpoint, {
-                        method: 'POST',
-                        headers: submission.headers,
-                        body: submission.data
-                    });
-
-                    if (response.ok) {
-                        successfulSubmissions.push(submission);
-                        this.announceToScreenReader(`Report ${submission.reportId} submitted successfully`);
-                    }
-                } catch (error) {
-                    console.log('Retry failed for submission:', submission.reportId);
-                }
-            }
-
-            // Remove successful submissions
-            const remainingSubmissions = submissions.filter(
-                sub => !successfulSubmissions.find(success => success.id === sub.id)
-            );
-
-            if (remainingSubmissions.length === 0) {
-                localStorage.removeItem('witness-chicago-failed-submissions');
-                this.announceToScreenReader('All failed submissions have been successfully retried');
-            } else {
-                localStorage.setItem('witness-chicago-failed-submissions', JSON.stringify(remainingSubmissions));
-                this.announceToScreenReader(`${successfulSubmissions.length} submissions succeeded, ${remainingSubmissions.length} still pending`);
-            }
-
-            // Remove notification
-            const notification = document.querySelector('.failed-submission-notification');
-            if (notification) {
-                notification.remove();
-            }
-
-            // Show updated notification if there are still failed submissions
-            if (remainingSubmissions.length > 0) {
-                setTimeout(() => this.showFailedSubmissionNotification(remainingSubmissions), 1000);
-            }
-
-        } catch (error) {
-            console.error('Error retrying failed submissions:', error);
-            this.showError('Failed to retry submissions. Please try again later.');
-        }
-    },
-
-    // Clear failed submissions
-    clearFailedSubmissions() {
-        localStorage.removeItem('witness-chicago-failed-submissions');
-        
-        const notification = document.querySelector('.failed-submission-notification');
-        if (notification) {
-            notification.remove();
-        }
-        
-        this.announceToScreenReader('Failed submissions cleared');
-    },
 
     // Encryption setup using WebCrypto API
     async initializeEncryption() {
@@ -625,7 +516,7 @@ const WitnessApp = {
             
         } catch (error) {
             console.error('Submission error:', error);
-            this.showError('Submission failed - your form data has been saved and will be retried automatically. You can also click "Retry Now" if you see a notification.');
+            this.showError('Submission failed. Please try again. Your form data has been saved so you won\'t lose your work.');
         } finally {
             this.state.isSubmitting = false;
             this.updateSubmitButton(false);
@@ -779,63 +670,23 @@ const WitnessApp = {
 
     // Submit to server
     async submitToServer(encryptedData) {
-        try {
-            // In production, this would be the actual API endpoint
-            const endpoint = this.config.apiEndpoint || '/api/submit-report';
-            
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(encryptedData)
-            });
+        // In production, this would be the actual API endpoint
+        const endpoint = this.config.apiEndpoint || '/api/submit-report';
+        
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(encryptedData)
+        });
 
-            if (!response.ok) {
-                throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
-            }
-
-            const result = await response.json();
-            return result;
-
-        } catch (error) {
-            // Store failed submission for retry
-            await this.storeFailedSubmission(encryptedData, error);
-            throw error;
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
         }
-    },
 
-    // Store failed submission for later retry
-    async storeFailedSubmission(encryptedData, error) {
-        try {
-            const failedSubmission = {
-                id: Date.now() + Math.random(),
-                timestamp: new Date().toISOString(),
-                reportId: encryptedData.metadata.reportId,
-                endpoint: this.config.apiEndpoint || '/api/submit-report',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                data: JSON.stringify(encryptedData),
-                error: error.message,
-                retryCount: 0
-            };
-
-            // Get existing failed submissions
-            const existingSubmissions = localStorage.getItem('witness-chicago-failed-submissions');
-            const submissions = existingSubmissions ? JSON.parse(existingSubmissions) : [];
-            
-            // Add new failed submission
-            submissions.push(failedSubmission);
-            
-            // Store back to localStorage
-            localStorage.setItem('witness-chicago-failed-submissions', JSON.stringify(submissions));
-            
-            console.log('Failed submission stored for retry:', failedSubmission.reportId);
-            
-        } catch (storageError) {
-            console.error('Error storing failed submission:', storageError);
-        }
+        const result = await response.json();
+        return result;
     },
 
     // Update submit button state
@@ -879,6 +730,35 @@ const WitnessApp = {
         // Focus on success message
         successMessage.focus();
         successMessage.scrollIntoView({ behavior: 'smooth' });
+    },
+
+    // Reset form for new report
+    resetForNewReport() {
+        const form = document.getElementById('incident-form');
+        const successMessage = document.getElementById('success-message');
+        
+        // Reset form
+        form.reset();
+        this.state.selectedFiles = [];
+        this.updateFileList();
+        
+        // Clear saved data
+        localStorage.removeItem('witness-chicago-form-data');
+        
+        // Show form, hide success
+        form.style.display = 'block';
+        successMessage.hidden = true;
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Focus on first input
+        const firstInput = form.querySelector('input, textarea');
+        if (firstInput) {
+            firstInput.focus();
+        }
+        
+        this.announceToScreenReader('New report form ready');
     },
 
     // Show error message
