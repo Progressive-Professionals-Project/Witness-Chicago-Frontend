@@ -57,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Witness Chicago",
-        "description": "Platform for reporting civil rights violations by federal law enforcement",
+        "description": "Platform for reporting civil rights violations in Chicago",
         "url": "https://witnesschicago.org",
         "sameAs": [],
         "contactPoint": {
@@ -69,7 +69,6 @@
     </script>
 </head>
 <body>
-
     <div class="container">
         <!-- Skip Navigation for Screen Readers -->
         <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -142,7 +141,7 @@
                         <div class="input-group">
                             <label for="submitter-email">Email Address (Optional)</label>
                             <input type="email" id="submitter-email" name="submitterEmail" autocomplete="email">
-                            <small class="help-text">Used only for follow-up if you request it below</small>
+                            <small class="help-text">If you provide an email address, you will receive a link to upload additional information about this incident in the future.</small>
                         </div>
                         
                         <div class="input-group">
@@ -197,8 +196,9 @@
                         </div>
                         
                         <div class="input-group">
-                            <label for="people-involved">Names of People Involved (If Known)</label>
-                            <textarea id="people-involved" name="peopleInvolved" rows="3" placeholder="Names of individuals involved, including victims, witnesses, or agents if identified"></textarea>
+                            <label for="people-involved">Names (or Other Identifiers) and Activity of People Involved</label>
+                            <textarea id="people-involved" name="peopleInvolved" rows="4" placeholder="Please describe the people involved and what their role in the incident was"></textarea>
+                            <small class="help-text">Include names if known, physical descriptions, badge numbers, vehicle descriptions, and what each person did during the incident</small>
                         </div>
                     </fieldset>
 
@@ -238,6 +238,12 @@
                                 <input type="checkbox" id="violation-other" name="violations" value="other">
                                 <label for="violation-other">Other civil rights violations</label>
                             </div>
+                        </div>
+                        
+                        <!-- Other violations explain field -->
+                        <div class="conditional-field" id="violation-other-explain" style="display: none;">
+                            <label for="violation-other-description">Please describe the other violations:</label>
+                            <textarea id="violation-other-description" name="violationOtherDescription" rows="2" placeholder="Describe the other civil rights violations that occurred"></textarea>
                         </div>
                     </fieldset>
 
@@ -282,6 +288,12 @@
                                 <label for="agency-unknown">Unknown/Unidentified</label>
                             </div>
                         </div>
+                        
+                        <!-- Unknown agency explain field -->
+                        <div class="conditional-field" id="agency-unknown-explain" style="display: none;">
+                            <label for="agency-unknown-description">Please describe what you observed about these unidentified agents:</label>
+                            <textarea id="agency-unknown-description" name="agencyUnknownDescription" rows="2" placeholder="Describe clothing, vehicles, equipment, behavior, or other identifying details"></textarea>
+                        </div>
                     </fieldset>
 
                     <!-- Incident Outcomes -->
@@ -312,6 +324,16 @@
                                 <input type="checkbox" id="outcome-legal-requested" name="outcomes" value="legal-requested">
                                 <label for="outcome-legal-requested">Legal representation was requested</label>
                             </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-other" name="outcomes" value="other">
+                                <label for="outcome-other">Other outcomes</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Other outcomes explain field -->
+                        <div class="conditional-field" id="outcome-other-explain" style="display: none;">
+                            <label for="outcome-other-description">Please describe the other outcomes:</label>
+                            <textarea id="outcome-other-description" name="outcomeOtherDescription" rows="2" placeholder="Describe any other outcomes or consequences of this incident"></textarea>
                         </div>
                     </fieldset>
 
@@ -343,9 +365,8 @@
                         <div class="checkbox-item">
                             <input type="checkbox" id="follow-up-consent" name="followUpConsent">
                             <label for="follow-up-consent">
-                                I would like to receive a secure email link to upload additional information about this incident in the future.
+                                I agree to be contacted regarding this incident in the future.
                             </label>
-                            <small class="help-text">Only check this if you provided an email address above.</small>
                         </div>
                     </fieldset>
 

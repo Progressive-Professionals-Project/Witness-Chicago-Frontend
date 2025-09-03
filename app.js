@@ -33,6 +33,8 @@ const WitnessApp = {
         this.setupEventListeners();
         this.setupAccessibility();
         this.setupFormValidation();
+        this.setupRealTimeValidation();
+        this.setupConditionalFields();
         this.restoreFormData();
         this.setupFormPersistence();
         console.log('Witness Chicago application initialized');
@@ -133,9 +135,108 @@ const WitnessApp = {
                 this.showFormRestoredNotification(timestamp);
             }
 
+            // Restore conditional field states
+            this.restoreConditionalFields();
+
         } catch (error) {
             console.error('Error restoring form data:', error);
             localStorage.removeItem('witness-chicago-form-data');
+        }
+    },
+
+    // Setup conditional fields that show/hide based on checkboxes
+    setupConditionalFields() {
+        // Other violations field
+        const violationOther = document.getElementById('violation-other');
+        const violationOtherExplain = document.getElementById('violation-other-explain');
+        
+        if (violationOther && violationOtherExplain) {
+            violationOther.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    violationOtherExplain.style.display = 'block';
+                    const textarea = violationOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        setTimeout(() => textarea.focus(), 100);
+                        this.announceToScreenReader('Additional field appeared for describing other violations');
+                    }
+                } else {
+                    violationOtherExplain.style.display = 'none';
+                    const textarea = violationOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }
+            });
+        }
+        
+        // Unknown agency field
+        const agencyUnknown = document.getElementById('agency-unknown');
+        const agencyUnknownExplain = document.getElementById('agency-unknown-explain');
+        
+        if (agencyUnknown && agencyUnknownExplain) {
+            agencyUnknown.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    agencyUnknownExplain.style.display = 'block';
+                    const textarea = agencyUnknownExplain.querySelector('textarea');
+                    if (textarea) {
+                        setTimeout(() => textarea.focus(), 100);
+                        this.announceToScreenReader('Additional field appeared for describing unknown agents');
+                    }
+                } else {
+                    agencyUnknownExplain.style.display = 'none';
+                    const textarea = agencyUnknownExplain.querySelector('textarea');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }
+            });
+        }
+        
+        // Other outcomes field
+        const outcomeOther = document.getElementById('outcome-other');
+        const outcomeOtherExplain = document.getElementById('outcome-other-explain');
+        
+        if (outcomeOther && outcomeOtherExplain) {
+            outcomeOther.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    outcomeOtherExplain.style.display = 'block';
+                    const textarea = outcomeOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        setTimeout(() => textarea.focus(), 100);
+                        this.announceToScreenReader('Additional field appeared for describing other outcomes');
+                    }
+                } else {
+                    outcomeOtherExplain.style.display = 'none';
+                    const textarea = outcomeOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }
+            });
+        }
+    },
+
+    // Restore conditional field visibility after form restoration
+    restoreConditionalFields() {
+        // Check violation-other
+        const violationOther = document.getElementById('violation-other');
+        const violationOtherExplain = document.getElementById('violation-other-explain');
+        if (violationOther && violationOtherExplain && violationOther.checked) {
+            violationOtherExplain.style.display = 'block';
+        }
+        
+        // Check agency-unknown
+        const agencyUnknown = document.getElementById('agency-unknown');
+        const agencyUnknownExplain = document.getElementById('agency-unknown-explain');
+        if (agencyUnknown && agencyUnknownExplain && agencyUnknown.checked) {
+            agencyUnknownExplain.style.display = 'block';
+        }
+        
+        // Check outcome-other
+        const outcomeOther = document.getElementById('outcome-other');
+        const outcomeOtherExplain = document.getElementById('outcome-other-explain');
+        if (outcomeOther && outcomeOtherExplain && outcomeOther.checked) {
+            outcomeOtherExplain.style.display = 'block';
         }
     },
 
@@ -180,8 +281,6 @@ const WitnessApp = {
         
         this.announceToScreenReader('Saved form data cleared');
     },
-
-
 
     // Encryption setup using WebCrypto API
     async initializeEncryption() {
@@ -298,6 +397,332 @@ const WitnessApp = {
         });
     },
 
+    // Setup real-time validation for email and phone
+    setupRealTimeValidation() {
+        const emailInput = document.getElementById('submitter-email');
+        const phoneInput = document.getElementById('submitter-phone');
+        
+        if (emailInput) {
+            this.setupEmailValidation(emailInput);
+        }
+        
+        if (phoneInput) {
+            this.setupPhoneValidation(phoneInput);
+        }
+    },
+
+    // Setup conditional fields that show/hide based on checkboxes
+    setupConditionalFields() {
+        // Other violations field
+        const violationOther = document.getElementById('violation-other');
+        const violationOtherExplain = document.getElementById('violation-other-explain');
+        
+        if (violationOther && violationOtherExplain) {
+            violationOther.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    violationOtherExplain.style.display = 'block';
+                    const textarea = violationOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        setTimeout(() => textarea.focus(), 100);
+                        this.announceToScreenReader('Additional field appeared for describing other violations');
+                    }
+                } else {
+                    violationOtherExplain.style.display = 'none';
+                    const textarea = violationOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }
+            });
+        }
+        
+        // Unknown agency field
+        const agencyUnknown = document.getElementById('agency-unknown');
+        const agencyUnknownExplain = document.getElementById('agency-unknown-explain');
+        
+        if (agencyUnknown && agencyUnknownExplain) {
+            agencyUnknown.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    agencyUnknownExplain.style.display = 'block';
+                    const textarea = agencyUnknownExplain.querySelector('textarea');
+                    if (textarea) {
+                        setTimeout(() => textarea.focus(), 100);
+                        this.announceToScreenReader('Additional field appeared for describing unknown agents');
+                    }
+                } else {
+                    agencyUnknownExplain.style.display = 'none';
+                    const textarea = agencyUnknownExplain.querySelector('textarea');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }
+            });
+        }
+        
+        // Other outcomes field
+        const outcomeOther = document.getElementById('outcome-other');
+        const outcomeOtherExplain = document.getElementById('outcome-other-explain');
+        
+        if (outcomeOther && outcomeOtherExplain) {
+            outcomeOther.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    outcomeOtherExplain.style.display = 'block';
+                    const textarea = outcomeOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        setTimeout(() => textarea.focus(), 100);
+                        this.announceToScreenReader('Additional field appeared for describing other outcomes');
+                    }
+                } else {
+                    outcomeOtherExplain.style.display = 'none';
+                    const textarea = outcomeOtherExplain.querySelector('textarea');
+                    if (textarea) {
+                        textarea.value = '';
+                    }
+                }
+            });
+        }
+    },
+
+    // Restore conditional field visibility after form restoration
+    restoreConditionalFields() {
+        // Check violation-other
+        const violationOther = document.getElementById('violation-other');
+        const violationOtherExplain = document.getElementById('violation-other-explain');
+        if (violationOther && violationOtherExplain && violationOther.checked) {
+            violationOtherExplain.style.display = 'block';
+        }
+        
+        // Check agency-unknown
+        const agencyUnknown = document.getElementById('agency-unknown');
+        const agencyUnknownExplain = document.getElementById('agency-unknown-explain');
+        if (agencyUnknown && agencyUnknownExplain && agencyUnknown.checked) {
+            agencyUnknownExplain.style.display = 'block';
+        }
+        
+        // Check outcome-other
+        const outcomeOther = document.getElementById('outcome-other');
+        const outcomeOtherExplain = document.getElementById('outcome-other-explain');
+        if (outcomeOther && outcomeOtherExplain && outcomeOther.checked) {
+            outcomeOtherExplain.style.display = 'block';
+        }
+    },
+
+    // Setup email validation with real-time feedback
+    setupEmailValidation(emailInput) {
+        let validationTimeout;
+        
+        // Create validation indicator
+        const indicator = document.createElement('div');
+        indicator.className = 'validation-indicator';
+        indicator.id = `${emailInput.id}-indicator`;
+        emailInput.parentNode.appendChild(indicator);
+        
+        emailInput.addEventListener('input', (e) => {
+            clearTimeout(validationTimeout);
+            
+            // Clear previous validation state
+            this.clearValidationIndicator(emailInput);
+            
+            const value = e.target.value.trim();
+            
+            // Don't validate empty optional fields
+            if (!value) {
+                return;
+            }
+            
+            // Debounce validation to avoid excessive feedback
+            validationTimeout = setTimeout(() => {
+                this.validateEmailRealTime(emailInput, value);
+            }, 300);
+        });
+        
+        emailInput.addEventListener('blur', () => {
+            const value = emailInput.value.trim();
+            if (value) {
+                this.validateEmailRealTime(emailInput, value);
+            }
+        });
+    },
+
+    // Real-time email validation
+    validateEmailRealTime(emailInput, value) {
+        const indicator = document.getElementById(`${emailInput.id}-indicator`);
+        
+        if (this.isValidEmail(value)) {
+            this.showValidationSuccess(emailInput, 'Valid email address');
+        } else {
+            // Provide helpful feedback based on common issues
+            let message = 'Please enter a valid email address';
+            
+            if (!value.includes('@')) {
+                message = 'Email address must include @';
+            } else if (!value.includes('.')) {
+                message = 'Email address must include a domain (e.g., .com)';
+            } else if (value.indexOf('@') === 0) {
+                message = 'Email address cannot start with @';
+            } else if (value.lastIndexOf('@') === value.length - 1) {
+                message = 'Email address cannot end with @';
+            }
+            
+            this.showValidationError(emailInput, message);
+        }
+    },
+
+    // Setup phone validation with formatting
+    setupPhoneValidation(phoneInput) {
+        let validationTimeout;
+        let isFormatting = false; // Flag to prevent cursor issues during formatting
+        
+        // Create validation indicator
+        const indicator = document.createElement('div');
+        indicator.className = 'validation-indicator';
+        indicator.id = `${phoneInput.id}-indicator`;
+        phoneInput.parentNode.appendChild(indicator);
+        
+        phoneInput.addEventListener('input', (e) => {
+            if (isFormatting) return; // Skip if we're in the middle of formatting
+            
+            clearTimeout(validationTimeout);
+            
+            const input = e.target;
+            const oldValue = input.value;
+            const cursorPos = input.selectionStart;
+            
+            // Format phone number
+            const formatted = this.formatPhoneNumber(oldValue);
+            
+            if (formatted !== oldValue) {
+                isFormatting = true;
+                
+                // Calculate new cursor position
+                const newCursorPos = this.calculateNewCursorPosition(oldValue, formatted, cursorPos);
+                
+                // Update value and cursor
+                input.value = formatted;
+                
+                // Use setTimeout to ensure the value is set before moving cursor
+                setTimeout(() => {
+                    input.setSelectionRange(newCursorPos, newCursorPos);
+                    isFormatting = false;
+                }, 0);
+            }
+            
+            // Clear previous validation state
+            this.clearValidationIndicator(phoneInput);
+            
+            const value = input.value.trim();
+            
+            // Don't validate empty optional fields
+            if (!value) {
+                return;
+            }
+            
+            // Debounce validation
+            validationTimeout = setTimeout(() => {
+                this.validatePhoneRealTime(phoneInput, value);
+            }, 300);
+        });
+        
+        phoneInput.addEventListener('blur', () => {
+            const value = phoneInput.value.trim();
+            if (value) {
+                this.validatePhoneRealTime(phoneInput, value);
+            }
+        });
+        
+        // Handle paste events
+        phoneInput.addEventListener('paste', (e) => {
+            setTimeout(() => {
+                const formatted = this.formatPhoneNumber(e.target.value);
+                e.target.value = formatted;
+            }, 0);
+        });
+    },
+
+    // Format phone number with better logic
+    formatPhoneNumber(value) {
+        // Remove all non-digits
+        const digits = value.replace(/\D/g, '');
+        
+        // Limit to 10 digits
+        const limitedDigits = digits.slice(0, 10);
+        
+        // Format based on length
+        if (limitedDigits.length >= 6) {
+            return `(${limitedDigits.slice(0, 3)}) ${limitedDigits.slice(3, 6)}-${limitedDigits.slice(6)}`;
+        } else if (limitedDigits.length >= 3) {
+            return `(${limitedDigits.slice(0, 3)}) ${limitedDigits.slice(3)}`;
+        } else if (limitedDigits.length > 0) {
+            return limitedDigits;
+        } else {
+            return '';
+        }
+    },
+
+    // Calculate new cursor position after formatting
+    calculateNewCursorPosition(oldValue, newValue, oldCursorPos) {
+        // Count digits before cursor in old value
+        const digitsBeforeCursor = oldValue.slice(0, oldCursorPos).replace(/\D/g, '').length;
+        
+        // Find position in new value that has same number of digits before it
+        let digitCount = 0;
+        for (let i = 0; i < newValue.length; i++) {
+            if (/\d/.test(newValue[i])) {
+                digitCount++;
+                if (digitCount === digitsBeforeCursor) {
+                    return i + 1;
+                }
+            }
+        }
+        
+        // If we didn't find the position, put cursor at end
+        return newValue.length;
+    },
+
+    // Real-time phone validation
+    validatePhoneRealTime(phoneInput, value) {
+        const digits = value.replace(/\D/g, '');
+        
+        if (digits.length === 10) {
+            this.showValidationSuccess(phoneInput, 'Valid phone number');
+        } else if (digits.length > 0) {
+            if (digits.length < 10) {
+                this.showValidationError(phoneInput, `Phone number needs ${10 - digits.length} more digits`);
+            } else {
+                this.showValidationError(phoneInput, 'Phone number is too long');
+            }
+        }
+    },
+
+    // Show validation success
+    showValidationSuccess(input, message) {
+        const indicator = document.getElementById(`${input.id}-indicator`);
+        if (indicator) {
+            indicator.innerHTML = `<span class="validation-success">✓ ${message}</span>`;
+            input.classList.remove('validation-error');
+            input.classList.add('validation-success');
+        }
+    },
+
+    // Show validation error
+    showValidationError(input, message) {
+        const indicator = document.getElementById(`${input.id}-indicator`);
+        if (indicator) {
+            indicator.innerHTML = `<span class="validation-error">⚠ ${message}</span>`;
+            input.classList.remove('validation-success');
+            input.classList.add('validation-error');
+        }
+    },
+
+    // Clear validation indicator
+    clearValidationIndicator(input) {
+        const indicator = document.getElementById(`${input.id}-indicator`);
+        if (indicator) {
+            indicator.innerHTML = '';
+            input.classList.remove('validation-success', 'validation-error');
+        }
+    },
+
     // Handle keyboard navigation
     handleKeyboardNavigation(e) {
         // Escape key handling
@@ -346,13 +771,24 @@ const WitnessApp = {
             errorMessage = 'Please enter a valid email address.';
         }
         
-        // Date validation
+        // Date validation - within past year including today
         if (field.type === 'date' && field.value) {
             const selectedDate = new Date(field.value);
             const today = new Date();
+            
+            // Set today to end of day for comparison
+            today.setHours(23, 59, 59, 999);
+            
+            // Calculate one year ago from today
+            const oneYearAgo = new Date(today);
+            oneYearAgo.setFullYear(today.getFullYear() - 1);
+            
             if (selectedDate > today) {
                 isValid = false;
                 errorMessage = 'Incident date cannot be in the future.';
+            } else if (selectedDate < oneYearAgo) {
+                isValid = false;
+                errorMessage = 'Incident date must be within the past year.';
             }
         }
 
@@ -676,7 +1112,8 @@ const WitnessApp = {
             // Separate sensitive and non-sensitive data
             const sensitiveFields = [
                 'submitterName', 'submitterEmail', 'submitterPhone',
-                'incidentDescription', 'peopleInvolved', 'files'
+                'incidentDescription', 'peopleInvolved', 'files',
+                'violationOtherDescription', 'agencyUnknownDescription', 'outcomeOtherDescription'
             ];
 
             const encryptedData = {
@@ -798,6 +1235,25 @@ const WitnessApp = {
         
         // Clear saved data
         localStorage.removeItem('witness-chicago-form-data');
+        
+        // Clear validation indicators
+        const indicators = form.querySelectorAll('.validation-indicator');
+        indicators.forEach(indicator => indicator.innerHTML = '');
+        
+        const validatedFields = form.querySelectorAll('.validation-success, .validation-error');
+        validatedFields.forEach(field => {
+            field.classList.remove('validation-success', 'validation-error');
+        });
+        
+        // Hide conditional fields
+        const conditionalFields = form.querySelectorAll('.conditional-field');
+        conditionalFields.forEach(field => {
+            field.style.display = 'none';
+            const textarea = field.querySelector('textarea');
+            if (textarea) {
+                textarea.value = '';
+            }
+        });
         
         // Show form, hide success
         form.style.display = 'block';
