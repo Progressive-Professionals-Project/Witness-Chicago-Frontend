@@ -97,6 +97,24 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Development Banner */
+.dev-banner {
+    background: #dc2626;
+    color: white;
+    padding: var(--space-3) 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dev-banner p {
+    margin: 0;
+}
+
 /* Skip Link for Accessibility */
 .skip-link {
     position: absolute;
@@ -658,7 +676,7 @@ footer {
     }
     
     .key-points,
-    .security-notice {
+    .privacy-notice {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--space-8);
@@ -666,7 +684,7 @@ footer {
     }
     
     .key-points h3,
-    .security-notice h3 {
+    .privacy-notice h3 {
         grid-column: 1 / -1;
     }
     
@@ -825,6 +843,8 @@ footer {
     .submit-btn,
     .form-restored-notification,
     .new-report-btn,
+    .dev-banner,
+    .quick-cta,
     footer {
         display: none;
     }
