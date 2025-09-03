@@ -1,0 +1,5 @@
+# Netlify ignore file - exclude these from deployment
+*.md
+!README.md
+deploy.sh
+*.log

@@ -1,0 +1,25 @@
+# Build/deployment directories
+# (Documentation files stay in repo, just don't deploy the build artifacts)
+
+# Build/deployment directories
+dist/
+build/
+deploy/
+
+# Development files
+.DS_Store
+Thumbs.db
+*.log
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local server files
+.htpasswd
+
+# Backup files
+*.bak
+*.backup

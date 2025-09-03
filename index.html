@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure platform for documenting civil rights violations by federal law enforcement in Chicago. Submit reports anonymously with end-to-end encryption.">
+    <meta name="keywords" content="civil rights, Chicago, federal agents, report violations, anonymous, secure">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Witness Chicago">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Witness Chicago - Report Civil Rights Violations">
+    <meta property="og:description" content="Secure platform for documenting federal law enforcement violations in Chicago">
+    <meta property="og:url" content="https://witnesschicago.org">
+    <meta property="og:site_name" content="Witness Chicago">
+    <meta property="og:image" content="https://witnesschicago.org/assets/social-share.png">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Witness Chicago - Report Civil Rights Violations">
+    <meta name="twitter:description" content="Secure platform for documenting federal law enforcement violations">
+    <meta name="twitter:image" content="https://witnesschicago.org/assets/social-share.png">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-{{NONCE}}'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="app.js" as="script">
+    
+    <title>Witness Chicago - Report Civil Rights Violations</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://witnesschicago.org">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Witness Chicago",
+        "description": "Secure platform for documenting civil rights violations by federal law enforcement",
+        "url": "https://witnesschicago.org",
+        "sameAs": [],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Legal Support",
+            "email": "legal@witnesschicago.org"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Skip Navigation for Screen Readers -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        
+        <header role="banner">
+            <h1 class="site-title">Witness Chicago</h1>
+            <p class="site-tagline">Secure Documentation of Civil Rights Violations</p>
+        </header>
+
+        <main id="main-content" role="main">
+            <!-- Project Description Section -->
+            <section class="intro-section" aria-labelledby="about-heading">
+                <h2 id="about-heading">About This Platform</h2>
+                <div class="intro-content">
+                    <p class="lead">Federal agents and National Guard units are operating in Chicago without proper identification. If you witness or experience civil rights violations, this secure platform allows you to document incidents anonymously.</p>
+                    
+                    <div class="key-points">
+                        <h3>When to Submit a Report:</h3>
+                        <ul>
+                            <li>Unlawful detention or arrest without proper identification</li>
+                            <li>Excessive force by unidentified federal agents</li>
+                            <li>Searches without warrants or probable cause</li>
+                            <li>Denial of legal representation or medical care</li>
+                            <li>Intimidation, harassment, or other civil rights violations</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="security-notice">
+                        <h3>Security & Privacy:</h3>
+                        <ul>
+                            <li><strong>End-to-end encrypted:</strong> All data is encrypted in your browser before transmission</li>
+                            <li><strong>Anonymous:</strong> No IP addresses or personal data logged</li>
+                            <li><strong>Secure:</strong> Data accessible only to verified civil rights attorneys</li>
+                            <li><strong>Private:</strong> Use Tor browser or VPN for additional privacy</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Report Form Section -->
+            <section class="form-section" aria-labelledby="report-heading">
+                <h2 id="report-heading">Submit an Incident Report</h2>
+                
+                <form id="incident-form" class="incident-form" novalidate>
+                    <!-- Personal Information (Optional) -->
+                    <fieldset class="form-group">
+                        <legend>Personal Information (Optional)</legend>
+                        <p class="fieldset-description">Providing contact information is optional but helps attorneys follow up if needed.</p>
+                        
+                        <div class="input-group">
+                            <label for="submitter-name">Your Name (Optional)</label>
+                            <input type="text" id="submitter-name" name="submitterName" autocomplete="name">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="submitter-email">Email Address (Optional)</label>
+                            <input type="email" id="submitter-email" name="submitterEmail" autocomplete="email">
+                            <small class="help-text">Used only for follow-up if you request it below</small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="submitter-phone">Phone Number (Optional)</label>
+                            <input type="tel" id="submitter-phone" name="submitterPhone" autocomplete="tel">
+                        </div>
+                    </fieldset>
+
+                    <!-- Relationship to Incident -->
+                    <fieldset class="form-group">
+                        <legend>Your Relationship to This Incident <span class="required">*</span></legend>
+                        <div class="radio-group" role="radiogroup" aria-required="true">
+                            <div class="radio-item">
+                                <input type="radio" id="relationship-involved" name="relationship" value="involved" required>
+                                <label for="relationship-involved">I was directly involved in this incident</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="relationship-witnessed" name="relationship" value="witnessed" required>
+                                <label for="relationship-witnessed">I witnessed this incident</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="relationship-heard" name="relationship" value="heard">
+                                <label for="relationship-heard">I heard about this incident from someone else</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Incident Details -->
+                    <fieldset class="form-group">
+                        <legend>Incident Details</legend>
+                        
+                        <div class="input-group">
+                            <label for="incident-date">Date of Incident <span class="required">*</span></label>
+                            <input type="date" id="incident-date" name="incidentDate" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="incident-time">Time of Incident (Approximate)</label>
+                            <input type="time" id="incident-time" name="incidentTime">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="incident-location">Location <span class="required">*</span></label>
+                            <input type="text" id="incident-location" name="incidentLocation" required placeholder="Street address, intersection, or general area">
+                            <small class="help-text">Be as specific as possible while maintaining your safety</small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="incident-description">Description of What Happened <span class="required">*</span></label>
+                            <textarea id="incident-description" name="incidentDescription" required rows="6" placeholder="Please describe the incident in detail..."></textarea>
+                            <small class="help-text">Include sequence of events, what was said, actions taken, etc.</small>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="people-involved">Names of People Involved (If Known)</label>
+                            <textarea id="people-involved" name="peopleInvolved" rows="3" placeholder="Names of individuals involved, including victims, witnesses, or agents if identified"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <!-- Type of Violations -->
+                    <fieldset class="form-group">
+                        <legend>Type of Violations (Check All That Apply)</legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-detention" name="violations" value="unlawful-detention">
+                                <label for="violation-detention">Unlawful detention or arrest</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-force" name="violations" value="excessive-force">
+                                <label for="violation-force">Excessive force</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-search" name="violations" value="unlawful-search">
+                                <label for="violation-search">Search without warrant</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-seizure" name="violations" value="property-seizure">
+                                <label for="violation-seizure">Seizure of property</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-medical" name="violations" value="denial-medical">
+                                <label for="violation-medical">Denial of medical care</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-legal" name="violations" value="denial-legal">
+                                <label for="violation-legal">Denial of legal representation</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-intimidation" name="violations" value="intimidation">
+                                <label for="violation-intimidation">Intimidation or harassment</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="violation-other" name="violations" value="other">
+                                <label for="violation-other">Other civil rights violations</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Agencies Involved -->
+                    <fieldset class="form-group">
+                        <legend>Government Agencies Involved (Check All That Apply)</legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-federal-unknown" name="agencies" value="federal-unknown">
+                                <label for="agency-federal-unknown">Federal agents (unidentified/unmarked)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-national-guard" name="agencies" value="national-guard">
+                                <label for="agency-national-guard">National Guard</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-ice" name="agencies" value="ice">
+                                <label for="agency-ice">ICE (Immigration and Customs Enforcement)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-fbi" name="agencies" value="fbi">
+                                <label for="agency-fbi">FBI</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-dea" name="agencies" value="dea">
+                                <label for="agency-dea">DEA</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-atf" name="agencies" value="atf">
+                                <label for="agency-atf">ATF</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-local-police" name="agencies" value="local-police">
+                                <label for="agency-local-police">Chicago Police Department</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-private" name="agencies" value="private-contractors">
+                                <label for="agency-private">Private contractors</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agency-unknown" name="agencies" value="unknown">
+                                <label for="agency-unknown">Unknown/Unidentified</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Incident Outcomes -->
+                    <fieldset class="form-group">
+                        <legend>Incident Outcomes (Check All That Apply)</legend>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-injuries" name="outcomes" value="injuries">
+                                <label for="outcome-injuries">Physical injuries occurred</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-arrests" name="outcomes" value="arrests">
+                                <label for="outcome-arrests">Arrests were made</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-property-damage" name="outcomes" value="property-damage">
+                                <label for="outcome-property-damage">Property was damaged</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-property-seized" name="outcomes" value="property-seized">
+                                <label for="outcome-property-seized">Property was seized</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-medical-needed" name="outcomes" value="medical-needed">
+                                <label for="outcome-medical-needed">Medical attention was required</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="outcome-legal-requested" name="outcomes" value="legal-requested">
+                                <label for="outcome-legal-requested">Legal representation was requested</label>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- File Upload -->
+                    <fieldset class="form-group">
+                        <legend>Evidence Upload (Optional)</legend>
+                        <p class="fieldset-description">Upload photos, videos, documents, or audio recordings related to this incident.</p>
+                        
+                        <div class="input-group">
+                            <label for="evidence-files">Select Files</label>
+                            <input type="file" id="evidence-files" name="evidenceFiles" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt">
+                            <small class="help-text">Accepted formats: Images, videos, audio, PDF, Word documents, text files. Max 10MB per file.</small>
+                        </div>
+                        
+                        <div id="file-list" class="file-list" aria-live="polite"></div>
+                    </fieldset>
+
+                    <!-- Consent and Follow-up -->
+                    <fieldset class="form-group">
+                        <legend>Consent and Follow-up</legend>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="privacy-consent" name="privacyConsent" required>
+                            <label for="privacy-consent">
+                                <span class="required">*</span> I understand and agree to the <a href="#privacy-policy" target="_blank">Privacy Policy</a> and consent to the secure processing of this information by civil rights attorneys.
+                            </label>
+                        </div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="follow-up-consent" name="followUpConsent">
+                            <label for="follow-up-consent">
+                                I would like to receive a secure email link to upload additional information about this incident in the future.
+                            </label>
+                            <small class="help-text">Only check this if you provided an email address above.</small>
+                        </div>
+                    </fieldset>
+
+                    <!-- Submit Button -->
+                    <div class="submit-section">
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <span class="btn-text">Submit Secure Report</span>
+                            <span class="btn-loading" hidden>Encrypting and Submitting...</span>
+                        </button>
+                        <p class="submit-help">Your report will be encrypted before transmission and made available to civil rights attorneys.</p>
+                    </div>
+                </form>
+
+                <!-- Success Message -->
+                <div id="success-message" class="success-message" hidden role="alert">
+                    <h3>Report Submitted Successfully</h3>
+                    <p>Your report has been securely encrypted and transmitted. Civil rights attorneys will review your submission.</p>
+                    <p><strong>Report ID:</strong> <span id="report-id"></span></p>
+                    <p>Please save this ID for your records. If you provided an email and requested follow-up access, you will receive a secure link within 24 hours.</p>
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-message" class="error-message" hidden role="alert">
+                    <h3>Submission Error</h3>
+                    <p id="error-text">There was a problem submitting your report. Please try again or contact support.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer role="contentinfo">
+            <div class="footer-content">
+                <p>&copy; 2025 Witness Chicago. Protecting civil rights through secure documentation.</p>
+                <nav class="footer-nav">
+                    <a href="#privacy-policy">Privacy Policy</a>
+                    <a href="#security">Security Information</a>
+                    <a href="mailto:legal@witnesschicago.org">Legal Contact</a>
+                </nav>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

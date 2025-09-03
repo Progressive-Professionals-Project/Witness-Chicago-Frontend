@@ -1,0 +1,23 @@
+# Robots.txt for Witness Chicago
+# Allow search engines to index the main page for discoverability
+# but protect sensitive areas
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /styles.css
+Allow: /app.js
+
+# Disallow sensitive paths (if any are added later)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /.env
+Disallow: /.htaccess
+Disallow: /logs/
+
+# Sitemap location (to be created)
+Sitemap: https://witnesschicago.org/sitemap.xml
+
+# Crawl delay to be respectful
+Crawl-delay: 1

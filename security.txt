@@ -1,0 +1,18 @@
+# Security.txt for Witness Chicago
+# RFC 9116 compliant security contact information
+
+Contact: mailto:security@witnesschicago.org
+Contact: https://witnesschicago.org/security-report
+Expires: 2025-12-31T23:59:59.000Z
+Encryption: https://witnesschicago.org/pgp-key.asc
+Preferred-Languages: en, es
+Canonical: https://witnesschicago.org/.well-known/security.txt
+
+# Policy information
+Policy: https://witnesschicago.org/security-policy
+
+# Acknowledgments
+Acknowledgments: https://witnesschicago.org/security-acknowledgments
+
+# Additional information
+Hiring: We are not currently hiring security researchers

@@ -1,0 +1,89 @@
+name: Deploy Witness Chicago to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allow manual deployment
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Verify required files exist
+        run: |
+          echo "🔍 Verifying required files..."
+          for file in index.html styles.css app.js manifest.json robots.txt security.txt sitemap.xml .htaccess; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ $file missing"
+              exit 1
+            fi
+          done
+        
+      - name: Create deployment directory
+        run: mkdir -p dist
+        
+      - name: Copy only production files (no .md documentation)
+        run: |
+          echo "📦 Copying production files..."
+          cp index.html dist/
+          cp styles.css dist/
+          cp app.js dist/
+          cp manifest.json dist/
+          cp robots.txt dist/
+          cp security.txt dist/
+          cp sitemap.xml dist/
+          cp .htaccess dist/
+          echo "✅ Production files copied"
+          
+      - name: Verify deployment contents
+        run: |
+          echo "🔍 Deployment contents:"
+          ls -la dist/
+          echo ""
+          echo "📊 File sizes:"
+          du -sh dist/*
+          echo ""
+          echo "🚫 Confirming no .md files in deployment:"
+          if find dist/ -name "*.md" | grep -q .; then
+            echo "❌ Documentation files found in deployment!"
+            find dist/ -name "*.md"
+            exit 1
+          else
+            echo "✅ No documentation files in deployment"
+          fi
+          
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload deployment artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        
+      - name: Deployment summary
+        run: |
+          echo "🎉 Deployment successful!"
+          echo "🌐 Site URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "📁 Deployed files: $(ls dist/ | wc -l)"
+          echo "🔒 Documentation files excluded from production"
