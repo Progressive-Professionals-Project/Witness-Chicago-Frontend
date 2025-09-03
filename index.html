@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Secure platform for documenting civil rights violations by federal law enforcement in Chicago. Submit reports anonymously with end-to-end encryption.">
+    <meta name="description" content="Platform for reporting civil rights violations by federal law enforcement in Chicago. Submit reports with privacy protection.">
     <meta name="keywords" content="civil rights, Chicago, federal agents, report violations, anonymous, secure">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Witness Chicago">
@@ -11,16 +11,23 @@
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Witness Chicago - Report Civil Rights Violations">
-    <meta property="og:description" content="Secure platform for documenting federal law enforcement violations in Chicago">
+    <meta property="og:description" content="Platform for reporting federal law enforcement violations in Chicago">
     <meta property="og:url" content="https://witnesschicago.org">
     <meta property="og:site_name" content="Witness Chicago">
-    <meta property="og:image" content="https://witnesschicago.org/assets/social-share.png">
+    <meta property="og:image" content="https://witnesschicago.org/assets/logo.png">
+    <meta property="og:image:width" content="869">
+    <meta property="og:image:height" content="479">
+    <meta property="og:image:alt" content="Witness Chicago - Report Civil Rights Violations">
+    <meta property="og:locale" content="en_US">
     
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@WitnessChicago">
+    <meta name="twitter:creator" content="@WitnessChicago">
     <meta name="twitter:title" content="Witness Chicago - Report Civil Rights Violations">
-    <meta name="twitter:description" content="Secure platform for documenting federal law enforcement violations">
-    <meta name="twitter:image" content="https://witnesschicago.org/assets/social-share.png">
+    <meta name="twitter:description" content="Platform for reporting federal law enforcement violations">
+    <meta name="twitter:image" content="https://witnesschicago.org/assets/logo.png">
+    <meta name="twitter:image:alt" content="Witness Chicago - Report Civil Rights Violations">
     
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-{{NONCE}}'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
@@ -38,10 +45,11 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icon.png">
+    <link rel="shortcut icon" href="assets/icon.png">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -49,7 +57,7 @@
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Witness Chicago",
-        "description": "Secure platform for documenting civil rights violations by federal law enforcement",
+        "description": "Platform for reporting civil rights violations by federal law enforcement",
         "url": "https://witnesschicago.org",
         "sameAs": [],
         "contactPoint": {
@@ -66,16 +74,24 @@
         <a href="#main-content" class="skip-link">Skip to main content</a>
         
         <header role="banner">
-            <h1 class="site-title">Witness Chicago</h1>
-            <p class="site-tagline">Secure Documentation of Civil Rights Violations</p>
+            <div class="site-logo">
+                <img src="assets/logo.png" alt="Witness Chicago - Report Civil Rights Violations" class="logo-image">
+            </div>
         </header>
+
+        <!-- Quick Access CTA -->
+        <div class="quick-cta">
+            <div class="container">
+                <a href="#report-form" class="quick-cta-button">Report an Incident</a>
+            </div>
+        </div>
 
         <main id="main-content" role="main">
             <!-- Project Description Section -->
             <section class="intro-section" aria-labelledby="about-heading">
                 <h2 id="about-heading">About This Platform</h2>
                 <div class="intro-content">
-                    <p class="lead">Federal agents and National Guard units are operating in Chicago without proper identification. If you witness or experience civil rights violations, this secure platform allows you to document incidents anonymously.</p>
+                    <p class="lead">Federal agents and National Guard units are operating unlawfully in Chicago without proper identification. If you witness or experience civil rights violations you can report them here. Reports will be investigated by civil rights attorneys who may reach out to you if you provide contact information.</p>
                     
                     <div class="key-points">
                         <h3>When to Submit a Report:</h3>
@@ -88,20 +104,20 @@
                         </ul>
                     </div>
                     
-                    <div class="security-notice">
-                        <h3>Security & Privacy:</h3>
+                    <div class="privacy-notice">
+                        <h3>Privacy:</h3>
                         <ul>
-                            <li><strong>End-to-end encrypted:</strong> All data is encrypted in your browser before transmission</li>
-                            <li><strong>Anonymous:</strong> No IP addresses or personal data logged</li>
-                            <li><strong>Secure:</strong> Data accessible only to verified civil rights attorneys</li>
-                            <li><strong>Private:</strong> Use Tor browser or VPN for additional privacy</li>
+                            <li>Your data is encrypted before being sent</li>
+                            <li>Providing your contact information is optional</li>
+                            <li>Reports are made available to civil rights attorneys</li>
+                            <li>Consider using private browsing mode</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <!-- Report Form Section -->
-            <section class="form-section" aria-labelledby="report-heading">
+            <section id="report-form" class="form-section" aria-labelledby="report-heading">
                 <h2 id="report-heading">Submit an Incident Report</h2>
                 
                 <form id="incident-form" class="incident-form" novalidate>
@@ -328,19 +344,18 @@
                     <!-- Submit Button -->
                     <div class="submit-section">
                         <button type="submit" class="submit-btn" id="submit-btn">
-                            <span class="btn-text">Submit Secure Report</span>
-                            <span class="btn-loading" hidden>Encrypting and Submitting...</span>
+                            <span class="btn-text">Submit Report</span>
+                            <span class="btn-loading" hidden>Submitting...</span>
                         </button>
-                        <p class="submit-help">Your report will be encrypted before transmission and made available to civil rights attorneys.</p>
                     </div>
                 </form>
 
                 <!-- Success Message -->
                 <div id="success-message" class="success-message" hidden role="alert">
                     <h3>Report Submitted Successfully</h3>
-                    <p>Your report has been securely encrypted and transmitted. Civil rights attorneys will review your submission.</p>
+                    <p>Your report has been submitted. Civil rights attorneys will review your submission.</p>
                     <p><strong>Report ID:</strong> <span id="report-id"></span></p>
-                    <p>Please save this ID for your records. If you provided an email and requested follow-up access, you will receive a secure link within 24 hours.</p>
+                    <p>Please save this ID for your records. If you provided an email and requested follow-up access, you will receive a link within 24 hours.</p>
                     <div class="success-actions">
                         <button type="button" class="new-report-btn" onclick="WitnessApp.resetForNewReport()">
                             Submit Another Report
@@ -351,14 +366,17 @@
                 <!-- Error Message -->
                 <div id="error-message" class="error-message" hidden role="alert">
                     <h3>Submission Error</h3>
-                    <p id="error-text">There was a problem submitting your report. Please try again or contact support.</p>
+                    <p id="error-text">There was a problem submitting your report, please try again.</p>
                 </div>
             </section>
         </main>
 
         <footer role="contentinfo">
             <div class="footer-content">
-                <p>&copy; 2025 Witness Chicago. Protecting civil rights through secure documentation.</p>
+                <div class="footer-logo">
+                    <img src="assets/icon.png" alt="Witness Chicago" class="footer-icon">
+                </div>
+                <p>&copy; 2025 Witness Chicago. Protecting civil rights through reporting.</p>
                 <nav class="footer-nav">
                     <a href="#privacy-policy">Privacy Policy</a>
                     <a href="#security">Security Information</a>
